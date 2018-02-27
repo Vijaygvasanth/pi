@@ -29,14 +29,15 @@ public class InMemoryDB {
     private InMemoryDB(){
     	
 			rfidItemMap.put("1033793865519", 1);
-			rfidItemMap.put("102", 1);
+			rfidItemMap.put("282640546118", 1);
 			rfidItemMap.put("278961641730", 2);
-
+			rfidItemMap.put("778946531820", 3);
+			
             //Items Metadata
             items = new ArrayList<>();
             items.add(new Item(1,"Boost-1kg",45000L));
             items.add(new Item(2,"Horlicks-1kg",55000L));
-            items.add(new Item(3,"Bru-1kg",145000L));
+            items.add(new Item(3,"Bru-100g",14500L));
             items.add(new Item(4,"Dove Shampoo - 100ml",6000L));
             items.add(new Item(5,"Dove soap - 100g",5500L));
 
