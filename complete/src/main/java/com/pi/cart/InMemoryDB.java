@@ -17,6 +17,9 @@ public class InMemoryDB {
     //private static List<Cart> carts;
     private static Map<Integer, Cart> cartMap = new HashMap<>();
     
+    private static Map<String, Integer> rfidItemMap = new HashMap<>();
+    
+ 
     private static List<User> users;
     private static Map<Integer, User> userMap;
     private static InMemoryDB instance = null;
@@ -24,6 +27,10 @@ public class InMemoryDB {
 
 
     private InMemoryDB(){
+    	
+			rfidItemMap.put("1033793865519", 1);
+			rfidItemMap.put("102", 1);
+			rfidItemMap.put("278961641730", 2);
 
             //Items Metadata
             items = new ArrayList<>();
@@ -64,8 +71,17 @@ public class InMemoryDB {
     	cartMap.put(cart.id, cart);
     }
     
+    public void removeCart(int cartId){
+    	cartMap.remove(cartId);
+    }
+    
+    
     public Cart getCart(int cartId){
     	return cartMap.get(cartId);
+    }
+    
+    public User getUser(int userId){
+    	return userMap.get(userId);
     }
     
     public Cart getUserCart(int userId){
@@ -79,6 +95,11 @@ public class InMemoryDB {
     
     public List<Item> getItems(){
             return items;
+    }
+    
+    public Item getItemForRfid(String rfid){
+    	int itemId = rfidItemMap.get(rfid);
+    	return itemMap.get(itemId);
     }
     
     public List<User> getUsers(){

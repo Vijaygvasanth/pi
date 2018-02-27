@@ -12,6 +12,10 @@ public class User {
 	@JsonIgnore
 	int cartId;
 	
+	public User(){
+		
+	}
+	
 	public User(int id, String name, Long balance) {
 		super();
 		this.id = id;

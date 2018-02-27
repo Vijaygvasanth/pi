@@ -7,16 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CartItem {
         private int itemId;
         private int quantity;
-        private Item item;
-
-        public Item getItem() {
-			return item;
-		}
-
-		public void setItem(Item item) {
-			this.item = item;
-		}
-
+		private Item item;
+        
 		public CartItem(){
 
         }
@@ -26,6 +18,15 @@ public class CartItem {
                 this.itemId = itemId;
                 this.quantity = quantity;
         }
+        
+     
+        public Item getItem() {
+			return item;
+		}
+
+		public void setItem(Item item) {
+			this.item = item;
+		}
 
         public int getItemId() {
                 return itemId;

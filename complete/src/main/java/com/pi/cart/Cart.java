@@ -22,9 +22,36 @@ public class Cart {
 	@JsonIgnore
 	private List<Item> items;
 	@JsonIgnore
+	private List<String> rfids;
+	@JsonIgnore
 	private Map<Integer, Item> itemMap;
 	@JsonIgnore
 	private static AtomicInteger counter = new AtomicInteger();
+	@JsonIgnore
+	private static InMemoryDB db = InMemoryDB.getInstance();
+	
+	public Cart(){
+		
+	}
+	
+	public Cart(int userId){
+		
+		this.userId = userId;
+		
+		id=counter.incrementAndGet();
+		System.out.println("Cart Id"+id);
+		cartItems = new HashMap<>();
+		items = db.getItems();
+		
+		itemMap = new HashMap<>();
+		for(Item item : items)
+		{
+			itemMap.put(item.getId(), item);
+		}
+		
+		rfids = new ArrayList<>();
+		
+	}
 	
 	public int getId() {
 		return id;
@@ -46,40 +73,22 @@ public class Cart {
 	}
 
 
-	public Cart(int userId){
-		
-		this.userId = userId;
-		
-		id=counter.incrementAndGet();
-		System.out.println("Cart Id"+id);
-		cartItems = new HashMap<>();
-		InMemoryDB db = InMemoryDB.getInstance();
-		items = db.getItems();
-		
-		itemMap = new HashMap<>();
-		for(Item item : items)
-		{
-			itemMap.put(item.getId(), item);
-		}
-		
-	}
+
 	
 	
-	public void addItem(int itemId,int quantity){
+	public void addItem(int itemId){
 		
 		if(itemMap.containsKey(itemId)){
 			if(cartItems.containsKey(itemId)){
 				incrementItemQuanity(itemId);
 			}
 			else{
-				CartItem cartItem = new CartItem(itemId, quantity);
+				CartItem cartItem = new CartItem(itemId, 1);
 				cartItem.setItem(itemMap.get(itemId));
 				
 				cartItems.put(itemId, cartItem);
-			}			
-				
-		}
-		
+			}
+		}	
 	}
 	
 	public void removeItem(int itemId){
@@ -118,6 +127,27 @@ public class Cart {
 			amount += (cartItem.getItem().getPrice() * cartItem.getQuantity());
 		}
 		return amount;
+	}
+
+
+	public CartItem updateCartItem(String rfid) {
+		if(rfids.contains(rfid))
+		{
+			Item item = db.getItemForRfid(rfid);
+			decrementItemQuanity(item.getId());
+			rfids.remove(rfid);
+		}
+		else
+		{
+			Item item = db.getItemForRfid(rfid);
+			if(item != null)
+			{
+				addItem(item.getId());
+				rfids.add(rfid);
+				return cartItems.get(item.getId());
+			}
+		}
+		return null;
 	}
 	
 

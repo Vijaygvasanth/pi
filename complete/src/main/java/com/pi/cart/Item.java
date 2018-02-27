@@ -7,6 +7,10 @@ public class Item {
         private int id;
         private String name;
         private Long price;
+        
+        public Item(){
+        	
+        }
 
 		public Item(int itemId, String itemName, Long price) {
                 super();
